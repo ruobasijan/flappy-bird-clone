@@ -21,3 +21,7 @@
 ### Running the Prettier
 
 `npm run format`
+
+### Link to application
+
+`https://flapy-bird-clone.netlify.app/`
