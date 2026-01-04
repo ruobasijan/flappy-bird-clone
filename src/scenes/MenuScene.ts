@@ -1,41 +1,45 @@
 import BaseScene from './BaseScene';
 
+import type { SharedConfig, MenuItemConfig } from '@/types';
+
 class MenuScene extends BaseScene {
-    constructor(config) {
-        super('MenuScene', config);
+  private menu: MenuItemConfig[];
 
-        this.menu = [
-            { scene: 'PlayScene', text: 'Play' },
-            { scene: 'ScoreScene', text: 'Score' },
-            { scene: null, text: 'Exit' },
-        ];
-    }
+  constructor(config: SharedConfig) {
+    super('MenuScene', config);
 
-    create() {
-        super.create();
-        this.createMenu(this.menu, this.setupMenuEvents.bind(this));
-    }
+    this.menu = [
+      { scene: 'PlayScene', text: 'Play' },
+      { scene: 'ScoreScene', text: 'Score' },
+      { scene: '', text: 'Exit' },
+    ];
+  }
 
-    setupMenuEvents(menuItem) {
-        const textGO = menuItem.textGO;
-        textGO.setInteractive();
+  create() {
+    super.create();
+    this.createMenu(this.menu, this.setupMenuEvents.bind(this));
+  }
 
-        textGO.on('pointerover', () => {
-            textGO.setStyle({ fill: '#ff0' })
-        })
+  setupMenuEvents(menuItem: MenuItemConfig) {
+    const textGO = menuItem.textGO;
+    textGO?.setInteractive();
 
-        textGO.on('pointerout', () => {
-            textGO.setStyle({ fill: '#000' })
-        })
+    textGO?.on('pointerover', () => {
+      textGO.setStyle({ color: '#ff0' });
+    });
 
-        textGO.on('pointerup', () => {
-            menuItem.scene && this.scene.start(menuItem.scene);
+    textGO?.on('pointerout', () => {
+      textGO.setStyle({ color: '#000' });
+    });
 
-            if (menuItem.text === 'Exit') {
-                this.game.destroy(true);
-            }
-        })
-    }
+    textGO?.on('pointerup', () => {
+      menuItem.scene && this.scene.start(menuItem.scene);
+
+      if (menuItem.text === 'Exit') {
+        this.game.destroy(true);
+      }
+    });
+  }
 }
 
 export default MenuScene;
